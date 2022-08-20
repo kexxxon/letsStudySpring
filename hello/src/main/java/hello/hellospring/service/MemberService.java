@@ -17,10 +17,10 @@ public class MemberService {
 
     /* Join Member */
     public Long join(Member member) {
-        // no duplicate members with the same name
-        validateDuplicateMember(member); // duplicate member validation
-        memberRepository.save(member);
-        return member.getId();
+            // no duplicate members with the same name
+            validateDuplicateMember(member); // duplicate member validation
+            memberRepository.save(member);
+            return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
