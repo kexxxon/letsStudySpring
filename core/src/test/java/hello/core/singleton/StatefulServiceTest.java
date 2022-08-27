@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StatefulServiceTest {
     @Test
     void statefulServiceSingleton() {
-         ApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
+        ApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
         StatefulService statefulService1 = ac.getBean(StatefulService.class);
         StatefulService statefulService2 = ac.getBean(StatefulService.class);
 
