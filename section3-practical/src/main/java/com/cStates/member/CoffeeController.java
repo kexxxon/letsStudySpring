@@ -1,5 +1,7 @@
 package com.cStates.member;
 
+import com.cStates.dto.CoffeePatchDto;
+import com.cStates.dto.CoffeePostDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +13,9 @@ import java.util.Map;
 @RequestMapping("/v1/coffees")
 public class CoffeeController {
     @PostMapping
-    public ResponseEntity postCoffee(@RequestParam("korName") String korName,
-                                     @RequestParam("engName") String engName,
-                                     @RequestParam("price") int price) {
+    public ResponseEntity postCoffee(@RequestBody CoffeePostDto coffeePostDto) {
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("korName", korName);
-        map.put("engName", engName);
-        map.put("price", price);
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity<>(coffeePostDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{coffeeId}")
@@ -29,7 +24,7 @@ public class CoffeeController {
 
         // not implementation
 
-        return new ResponseEntity<Map>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
@@ -38,21 +33,18 @@ public class CoffeeController {
 
         // not implementation
 
-        return new ResponseEntity<Map>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/{coffeeId}")
     public ResponseEntity patchCoffee(@PathVariable("coffeeId") long coffeeId,
-                                      @RequestParam("korName") String korName,
-                                      @RequestParam("price") int price) {
+                                      @RequestBody CoffeePatchDto coffeePatchDto) {
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("coffeeId", coffeeId);
-        body.put("korName", korName);
-        body.put("engName", "Espresso");
-        body.put("price", price);
+        coffeePatchDto.getKorName();
+        coffeePatchDto.getEngName();
+        coffeePatchDto.setPrice(3000);
 
-        return new ResponseEntity(body, HttpStatus.OK);
+        return new ResponseEntity<>(coffeePatchDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{coffeeId}")
@@ -60,6 +52,6 @@ public class CoffeeController {
 
         // No need business logic
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
