@@ -1,44 +1,65 @@
 package com.cStates.member;
 
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
-@RequestMapping(value = "/v1/coffees", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping("/v1/coffees")
 public class CoffeeController {
     @PostMapping
-    public String postMember(@RequestParam("engName") String engName,
-                             @RequestParam("korName") String korName,
-                             @RequestParam("price") int price) {
-        System.out.println("# engName: " + engName);
-        System.out.println("# korName: " + korName);
-        System.out.println("# price: " + price);
+    public ResponseEntity postCoffee(@RequestParam("korName") String korName,
+                                     @RequestParam("engName") String engName,
+                                     @RequestParam("price") int price) {
 
-        String response =
-                    "{\"" +
-                        "engName\":\""+engName+"\"," +
-                        "\"korName\":\""+korName+"\",\"" +
-                        "price\":\"" + price+
-                    "\"}";
+        Map<String, Object> map = new HashMap<>();
+        map.put("korName", korName);
+        map.put("engName", engName);
+        map.put("price", price);
 
-        return response;
+        return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{coffee-id}")
-    public String getCoffee(@PathVariable("coffee-id")long coffeeId) {
+    @GetMapping("/{coffeeId}")
+    public ResponseEntity getCoffee(@PathVariable("coffeeId")long coffeeId) {
         System.out.println("# coffeeId: " + coffeeId);
 
         // not implementation
 
-        return null;
+        return new ResponseEntity<Map>(HttpStatus.OK);
     }
 
     @GetMapping
-    public String getCoffees() {
+    public ResponseEntity getCoffees() {
         System.out.println("# get Coffees");
 
         // not implementation
 
-        return null;
+        return new ResponseEntity<Map>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{coffeeId}")
+    public ResponseEntity patchCoffee(@PathVariable("coffeeId") long coffeeId,
+                                      @RequestParam("korName") String korName,
+                                      @RequestParam("price") int price) {
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("coffeeId", coffeeId);
+        body.put("korName", korName);
+        body.put("engName", "Espresso");
+        body.put("price", price);
+
+        return new ResponseEntity(body, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{coffeeId}")
+    public ResponseEntity deleteCoffee(@PathVariable("coffeeId") long coffeeId) {
+
+        // No need business logic
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
