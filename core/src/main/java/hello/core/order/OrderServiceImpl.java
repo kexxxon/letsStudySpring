@@ -3,22 +3,27 @@ package hello.core.order;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.discount.DiscountPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Component
 public class OrderServiceImpl implements OrderService {
-    private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+    // Setter DI
+    private MemberRepository memberRepository;
+    private DiscountPolicy discountPolicy;
 
-    // Constructor DI - when constructor is only one, then can drop out @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        // DI test
+    @Autowired
+    public void setMemberRepository(MemberRepository memberRepository) {
         System.out.println("memberRepository = " + memberRepository);
-        System.out.println("discountPolicy = " + discountPolicy);
-
         this.memberRepository = memberRepository;
+    }
+
+    @Autowired
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        System.out.println("discountPolicy = " + discountPolicy);
         this.discountPolicy = discountPolicy;
     }
 
