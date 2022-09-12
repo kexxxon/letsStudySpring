@@ -3,6 +3,7 @@ package hello.core.order;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.discount.DiscountPolicy;
+import hello.core.member.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,19 +12,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Component
 public class OrderServiceImpl implements OrderService {
-    // Setter DI
-    private MemberRepository memberRepository;
-    private DiscountPolicy discountPolicy;
+    // Field DI
+    @Autowired private MemberRepository memberRepository;
+    @Autowired private DiscountPolicy discountPolicy;
 
-    @Autowired
     public void setMemberRepository(MemberRepository memberRepository) {
-        System.out.println("memberRepository = " + memberRepository);
         this.memberRepository = memberRepository;
     }
 
-    @Autowired
     public void setDiscountPolicy(DiscountPolicy discountPolicy) {
-        System.out.println("discountPolicy = " + discountPolicy);
         this.discountPolicy = discountPolicy;
     }
 
